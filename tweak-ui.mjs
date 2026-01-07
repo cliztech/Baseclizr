@@ -1,5 +1,6 @@
-/* global Dom, Util, reset, lanes, roadWidth, cameraHeight, drawDistance, fieldOfView, fogDensity */
-export function setupTweakUI() {
+/* global Dom, Util */
+export function setupTweakUI(callbacks) {
+  var reset = callbacks.reset;
   Dom.on('resolution', 'change', function(ev) {
     var w, h;
     switch(ev.target.options[ev.target.selectedIndex].value) {
@@ -19,10 +20,18 @@ export function setupTweakUI() {
   Dom.on('fieldOfView',    'change', function(ev) { Dom.blur(ev); reset({ fieldOfView:   Util.limit(Util.toInt(ev.target.value), Util.toInt(ev.target.getAttribute('min')), Util.toInt(ev.target.getAttribute('max'))) }); });
   Dom.on('fogDensity',     'change', function(ev) { Dom.blur(ev); reset({ fogDensity:    Util.limit(Util.toInt(ev.target.value), Util.toInt(ev.target.getAttribute('min')), Util.toInt(ev.target.getAttribute('max'))) }); });
 
-  refreshTweakUI();
+  // Do not call refreshTweakUI here, let the caller handle it or pass state
+  // Or better, if caller passes state, we can call it.
 }
 
-export function refreshTweakUI() {
+export function refreshTweakUI(state) {
+  var lanes        = state.lanes;
+  var roadWidth    = state.roadWidth;
+  var cameraHeight = state.cameraHeight;
+  var drawDistance = state.drawDistance;
+  var fieldOfView  = state.fieldOfView;
+  var fogDensity   = state.fogDensity;
+
   Dom.get('lanes').selectedIndex = lanes-1;
   Dom.get('currentRoadWidth').innerHTML      = Dom.get('roadWidth').value      = roadWidth;
   Dom.get('currentCameraHeight').innerHTML   = Dom.get('cameraHeight').value   = cameraHeight;

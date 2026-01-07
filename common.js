@@ -211,10 +211,12 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
     music.play();
     Dom.toggleClassName('mute', 'on', music.muted);
     Dom.get('mute').setAttribute('aria-pressed', music.muted);
+    Dom.get('mute').title = music.muted ? "Unmute music" : "Mute music";
     Dom.on('mute', 'click', function() {
       Dom.storage.muted = music.muted = !music.muted;
       Dom.toggleClassName('mute', 'on', music.muted);
       Dom.get('mute').setAttribute('aria-pressed', music.muted);
+      Dom.get('mute').title = music.muted ? "Unmute music" : "Mute music";
     });
   }
 
